@@ -1,12 +1,20 @@
-﻿using SIL.CommandLineProcessing;
+﻿using System;
+using SIL.CommandLineProcessing;
 using SIL.IO;
 using SIL.Progress;
 
 namespace PhotoStoryToBloomConverter
 {
+	[Flags]
+	public enum AudioOptions
+	{
+		None = 0,
+		OptimizeForSpeechOnly = 1
+	}
+
 	public interface IAudioEncoder
 	{
-		string Encode(string sourcePath, string destPathWithoutExtension);
+		string Encode(string sourcePath, string destPathWithoutExtension, AudioOptions audioOptions = AudioOptions.None);
 		string FormatName { get; }
 	}
 
@@ -20,6 +28,11 @@ namespace PhotoStoryToBloomConverter
 			if (result.StandardError.Contains("FAIL"))
 				return null;
 			return destPathWithoutExtension + "." + FormatName;
+		}
+
+		public string Encode(string sourcePath, string destPathWithoutExtension, AudioOptions audioOptions = AudioOptions.None)
+		{
+			throw new NotImplementedException();
 		}
 
 		public string FormatName
